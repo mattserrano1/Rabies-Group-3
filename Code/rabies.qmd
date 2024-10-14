@@ -52,35 +52,59 @@ rabies <- rabies |> mutate(
 
 3.  In what year was the highest total number of sample submissions received? (Hint: you might want the `sum()` function)
 
+```{r}
+rabies |> group_by(
+  Received.Year) |> summarise( 
+  HighSamples = sum(Number.of.Samples))
+```
+
+
 4.  In what year and in what county was the highest positive number of samples received?
 
+
 5.  How many rows of data are there that include submissions from bats for which the samples were positive for rabies? For which the samples were not positive for rabies?
+
 ```{r}
 rabies |> filter(
   Animal.Classification == "Bat") |> filter(
     Positive.Samples != 0)
-    )
+
+
+rabies |> filter(
+  Animal.Classification == "Bat") |> filter(
+    Positive.Samples == 0)
+    
   
 ```
 
+
 6.  How many animal types were there for which, in instances in which there were more than 4 samples submitted at a time, the percent of positive samples was greater than 50%?
 
+```{r}
+rabies |> select(
+  Animal.Classification, Number.of.Samples, Percent_pos) |> group_by(
+    Animal.Classification) |> filter(
+    Number.of.Samples>4, Percent_pos>50)
+```
+
+
 7.  Create a new dataset that includes only data from St. Lawrence County and name it SLC. Next, calculate, by Animal.Classification, the total number of submissions per year, the total number of positive submissions per year, and then the percent positive per year based on those two totals. Save your results in a new data frame called SLC_animals.
+
+```{r}
+SLC <- rabies |> filter(County.Name == "St. Lawrence") 
+SLC_animals <- SLC |> group_by(
+  Animal.Classification) |> summarise(
+    Total_Sub = sum(Number.of.Samples),
+    Pos_Sub = sum(Positive.Samples),
+    Percent_pos = (Pos_Sub/Total_Sub)*100) |>
+  View()
+```
+
 
 8.  Create a new dataset that includes only data from St. Lawrence County from 2020 to present. Name the dataset `SLC_recent`.
 
 9.  What was the animal type for which the highest percent of submitted samples tested positive by year in your St. Lawrence County dataset? What is the average percent positive by year?
 
 When you have finished working on your questions, save your changes and commit them. Working from your branch (and not *main*), push your changes to your repository and then open a Pull Request to have the changes incorporated into your group repository.
-
-
-
-
-
-
-
-
-
-
 
 
