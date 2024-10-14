@@ -52,12 +52,6 @@ rabies <- rabies |> mutate(
 
 3.  In what year was the highest total number of sample submissions received? (Hint: you might want the `sum()` function)
 
-```{r}
-rabies |> group_by(
-  Received.Year) |> summarise( 
-  HighSamples = sum(Number.of.Samples))
-```
-
 
 4.  In what year and in what county was the highest positive number of samples received?
 
@@ -89,16 +83,6 @@ rabies |> select(
 
 
 7.  Create a new dataset that includes only data from St. Lawrence County and name it SLC. Next, calculate, by Animal.Classification, the total number of submissions per year, the total number of positive submissions per year, and then the percent positive per year based on those two totals. Save your results in a new data frame called SLC_animals.
-
-```{r}
-SLC <- rabies |> filter(County.Name == "St. Lawrence") 
-SLC_animals <- SLC |> group_by(
-  Animal.Classification) |> summarise(
-    Total_Sub = sum(Number.of.Samples),
-    Pos_Sub = sum(Positive.Samples),
-    Percent_pos = (Pos_Sub/Total_Sub)*100) |>
-  View()
-```
 
 
 8.  Create a new dataset that includes only data from St. Lawrence County from 2020 to present. Name the dataset `SLC_recent`.
